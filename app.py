@@ -170,7 +170,7 @@ def delete_item(item_id):
     if item:
         db.session.delete(item)
         db.session.commit()
-    return redirect(url_for('index'))
+    return redirect(url_for('dashboard'))
 
 @app.route('/get_items', methods=['GET'])
 def get_items():
@@ -180,23 +180,28 @@ def get_items():
 
 @app.route('/update_supplier/<int:item_id>', methods=['POST'])
 def update_supplier(item_id):
-    """Update the supplier and order quantity for an inventory item."""
+    print(f"🔍 Received update request for item ID: {item_id}")  # Debugging
+
     data = request.json
     supplier = data.get("supplier")
     order_quantity = data.get("order_quantity")
 
     item = Inventory.query.get(item_id)
     if not item:
+        print("❌ Item not found!")
         return jsonify({"error": "Item not found"}), 404
 
     if not supplier or not order_quantity:
+        print("⚠ Missing supplier/order quantity!")
         return jsonify({"error": "Supplier and order quantity are required"}), 400
 
     item.supplier = supplier
     item.order_quantity = order_quantity
     db.session.commit()
 
+    print(f"✅ Updated item {item.name} with supplier {supplier} and order quantity {order_quantity}")
     return jsonify({"success": f"Supplier and order quantity updated for {item.name}!"})
+
 
 
 IAM_TOKEN_URL = "https://iam.cloud.ibm.com/identity/token"

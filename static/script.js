@@ -246,10 +246,10 @@ function updateSupplierForItem(itemId) {
         return;
     }
 
-    fetch(`/update_supplier/${itemId}`, {
+    fetch(`/update_supplier/${itemId}`, {  
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ supplier: supplier, order_quantity: orderQuantity })
+        body: JSON.stringify({ supplier: supplier, order_quantity: parseInt(orderQuantity) }) 
     })
     .then(response => response.json())
     .then(data => {
@@ -257,6 +257,7 @@ function updateSupplierForItem(itemId) {
     })
     .catch(error => console.error("Error updating supplier details:", error));
 }
+
 
 // Run when page loads
 document.addEventListener("DOMContentLoaded", function () {

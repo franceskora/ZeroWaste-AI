@@ -89,7 +89,9 @@
 
       <!-- 🟡 Section 2: Supplier & Restock Settings (Separate but inside the same box) -->
       <h2>⚙️ Supplier & Restock Settings</h2>
-      <form action="/update_restock_settings" method="POST">
+      <form
+        onsubmit="event.preventDefault(); updateSupplierForItem(selectedItemId);"
+      >
         <label for="global_threshold">Global Restock Threshold:</label>
         <input
           type="number"
