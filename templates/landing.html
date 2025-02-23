@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Welcome to ZeroWaste AI</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles.css') }}"
+    />
+  </head>
+  <body>
+    <div class="welcome-container">
+      <div class="welcome-content">
+        <h1>Welcome to ZeroWaste AI</h1>
+        <p>Optimize your inventory with AI-powered insights.</p>
+        <a href="{{ url_for('login') }}"
+          ><button class="get-started-btn">Get Started</button></a
+        >
+      </div>
+    </div>
+  </body>
+</html>

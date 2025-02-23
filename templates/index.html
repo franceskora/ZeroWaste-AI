@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ZeroWaste AI - Inventory</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='styles.css') }}"
+    />
+    <script src="{{ url_for('static', filename='script.js') }}" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <h1>ZeroWaste AI - Inventory Management</h1>
+      <a href="/add" class="btn btn-add">➕ Add New Item</a>
+      <a href="/restock_pdf" class="btn btn-ai">Get Restock List</a>
+
+      {% if items %}
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Quantity</th>
+            <th>Expiry Date</th>
+            <th>Barcode</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in items %}
+          <tr>
+            <td>{{ item.id }}</td>
+            <td>
+              {{ item.name }} {% if item.name in low_stock_items %}
+              <span
+                style="color: red"
+                title="This item is running low on stock."
+                >⚠️ Low Stock</span
+              >
+              {% endif %}
+            </td>
+            <td>{{ item.quantity }}</td>
+            <td>
+              {{ item.expiry_date.strftime('%Y-%m-%d') if item.expiry_date else
+              'N/A' }}
+            </td>
+            <td>{{ item.barcode if item.barcode else "N/A" }}</td>
+            <td>
+              <button
+                class="btn btn-delete"
+                onclick="confirmDelete({{ item.id }})"
+              >
+                🗑 Delete
+              </button>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <p class="empty-message">No items in inventory.</p>
+      {% endif %}
+
+      <!-- Stock Warning Threshold Input -->
+      <div class="threshold-section">
+        <label for="stockThreshold">Set Low Stock Warning Level:</label>
+        <input
+          type="number"
+          id="stockThreshold"
+          placeholder="Enter number (e.g. 5)"
+        />
+        <button class="btn btn-set" onclick="setStockThreshold()">Save</button>
+      </div>
+    </div>
+
+    <div id="delete-popup" class="confirmation-box" style="display: none">
+      <div class="popup">
+        <p>Are you sure you want to delete this item?</p>
+        <button id="confirm-delete" class="btn-confirm">🗑 Delete</button>
+        <button onclick="closeConfirmation()" class="btn-cancel">Cancel</button>
+      </div>
+    </div>
+
+    <div class="sale-section">
+      <h2>Record Sales</h2>
+      <input type="text" id="generalBarcode" placeholder="Scan Barcode" />
+      <input type="text" id="generalName" placeholder="Enter Product Name" />
+      <input type="number" id="saleAmount" placeholder="Amount" value="1" />
+      <button class="btn btn-sale" onclick="recordGeneralSale()">
+        Record Sale
+      </button>
+    </div>
+
+    {% if placed_orders %}
+    <div class="order-section">
+      <h2>🛒 Automated Orders Placed</h2>
+      <ul>
+        {% for order in placed_orders %}
+        <li>
+          Ordered {{ order.quantity }}x {{ order.item_name }} from {{
+          order.supplier }}
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
+    <div class="chart-container">
+      <h2>📊 Sales Trend</h2>
+      <canvas id="salesChart"></canvas>
+    </div>
+
+    <div class="chart-container">
+      <h2>📦 Inventory Levels</h2>
+      <canvas id="inventoryChart"></canvas>
+    </div>
+
+    <div class="chart-container">
+      <h2>🔮 Restock Predictions</h2>
+
+      {% if low_stock_items %}
+      <ul>
+        {% for item in low_stock_items %}
+        <li>{{ item }} is low on stock and might need restocking soon.</li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <p>No items need restocking at the moment.</p>
+      {% endif %}
+    </div>
+
+    <div class="ai-prediction-section">
+      <h2>📊 AI Demand Forecast</h2>
+      <button class="btn btn-ai" onclick="getPrediction()">
+        ⚡ Get AI Prediction
+      </button>
+      <p id="ai_prediction" class="ai-output">Predictions will appear here.</p>
+    </div>
+    <div class="top-menu">
+      <h1>ZeroWaste AI - Inventory Management</h1>
+      <a href="{{ url_for('logout') }}" class="btn btn-logout">🚪 Logout</a>
+    </div>
+  </body>
+</html>

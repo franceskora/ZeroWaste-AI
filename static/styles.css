@@ -1,0 +1,276 @@
+/* ================== General Styles ================== */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 20px;
+    background: #f4f4f4;
+    text-align: center;
+}
+.container {
+    max-width: 800px;
+    margin: auto;
+    background: white;
+    padding: 20px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    text-align: center;
+}
+
+/* 🟢 Style for Supplier & Restock Section */
+.container form {
+    margin-top: 20px;
+    padding: 15px;
+    background: #e3f2fd;
+    border-radius: 8px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.container form label {
+    display: block;
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.container form input {
+    width: 80%;
+    padding: 8px;
+    margin-top: 5px;
+    border-radius: 5px;
+    border: 1px solid #bbb;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.btn-primary {
+    background: #007bff;
+    color: white;
+    padding: 10px 15px;
+    text-decoration: none;
+    display: inline-block;
+    border-radius: 5px;
+}
+
+.btn-primary:hover {
+    background: #0056b3;
+}
+
+/* ================== Table Styles ================== */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background: white;
+    border-radius: 5px;
+    overflow: hidden;
+}
+th, td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: center;
+    font-size: 16px;
+}
+th {
+    background-color: #4CAF50;
+    color: white;
+    font-weight: bold;
+}
+tr:nth-child(even) {
+    background: #f9f9f9;
+}
+tr:hover {
+    background: #e8f5e9; 
+}
+
+/* ================== Button Styles ================== */
+.btn {
+    text-decoration: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    display: inline-block;
+    margin-top: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    font-size: 14px;
+    border: none;
+}
+.btn:hover {
+    transform: scale(1.05);
+    opacity: 0.9;
+}
+.btn:active {
+    transform: scale(0.95);
+}
+.btn-add {
+    background: #5cb85c;
+    color: white;
+}
+.btn-add:hover {
+    background: #4cae4c;
+}
+.btn-delete {
+    background: #d9534f;
+    color: white;
+}
+.btn-delete:hover {
+    background: #c9302c;
+}
+.btn-ai {
+    background: #f0ad4e;
+    color: white;
+}
+.btn-ai:hover {
+    background: #ec971f;
+}
+
+/* ================== Delete Confirmation Popup ================== */
+.confirmation-box {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    z-index: 1000;
+    display: none;
+    width: 300px;
+}
+.popup p {
+    font-size: 16px;
+    margin-bottom: 15px;
+}
+.btn-confirm {
+    background: #d9534f;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+.btn-confirm:hover {
+    background: #c9302c;
+}
+.btn-cancel {
+    background: #5bc0de;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.btn-cancel:hover {
+    background: #31b0d5;
+}
+
+/* ================== AI Forecast Section ================== */
+.ai-prediction-section {
+    margin-top: 30px;
+    padding: 15px;
+    background: #fff3cd;
+    border-radius: 5px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+.ai-output {
+    font-size: 16px;
+    margin-top: 10px;
+    font-weight: bold;
+    color: #856404;
+}
+
+
+@media (max-width: 600px) {
+    th, td {
+        padding: 8px;
+        font-size: 14px;
+    }
+    .btn {
+        padding: 8px 12px;
+        font-size: 12px;
+    }
+}
+/*==== added styles ====*/
+.btn-submit{
+    background-color: #4CAF50;
+    color: white;
+}
+.btn-submit:hover{
+    background-color: #3e8e41;
+}
+.btn-back{
+    background-color: #008CBA;
+    color: white;
+}
+.btn-back:hover{
+    background-color: #0077b3;
+}
+.btn-sale{
+    background-color: #008CBA;
+    color: white;
+}
+.btn-sale:hover{
+    background-color: #0077b3;
+}
+
+.top-menu {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.btn-logout {
+    background: #d9534f;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.btn-logout:hover {
+    background: #c9302c;
+}
+
+/* ==== WELCOME PAGE STYLING ==== */
+.welcome-container {
+    height: 100vh; /* Full screen */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background: url("../static/welcome_background.png") no-repeat center center/cover;
+    color: white;
+}
+
+.welcome-content {
+    background: rgba(0, 0, 0, 0.4); 
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.welcome-container h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+}
+
+.get-started-btn {
+    background: #f39c12;
+    color: white;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+}
+
+.get-started-btn:hover {
+    transform: scale(1.05);
+    background: #e67e22;
+}

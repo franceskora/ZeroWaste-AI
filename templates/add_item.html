@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add New Items</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='styles.css') }}"
+    />
+    <script src="{{ url_for('static', filename='script.js') }}" defer></script>
+  </head>
+  <body>
+    <div class="container">
+      <!-- 🟢 Section 1: Add New Items -->
+      <h2>➕ Add New Inventory Items</h2>
+      <form action="/add" method="POST" id="inventoryForm">
+        <table id="itemsTable">
+          <thead>
+            <tr>
+              <th>Barcode</th>
+              <th>Item Name</th>
+              <th>Quantity</th>
+              <th>Expiry Date</th>
+              <th>Supplier</th>
+              <th>Order Quantity</th>
+              <th>Remove</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <input
+                  type="text"
+                  name="barcode[]"
+                  placeholder="Scan Barcode (Optional)"
+                  oninput="fetchProductDetails(this)"
+                />
+              </td>
+              <td>
+                <input
+                  type="text"
+                  name="name[]"
+                  placeholder="Item Name"
+                  required
+                />
+              </td>
+              <td>
+                <input
+                  type="number"
+                  name="quantity[]"
+                  placeholder="Quantity"
+                  required
+                />
+              </td>
+              <td><input type="date" name="expiry_date[]" /></td>
+              <td>
+                <input
+                  type="text"
+                  name="supplier[]"
+                  placeholder="Enter Supplier"
+                />
+              </td>
+              <td>
+                <input
+                  type="number"
+                  name="order_quantity[]"
+                  placeholder="Order Quantity"
+                />
+              </td>
+              <td>
+                <button
+                  type="button"
+                  class="btn-delete"
+                  onclick="removeRow(this)"
+                >
+                  🗑
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <button type="button" class="btn btn-add" onclick="addNewRow()">
+          ➕ Add Another Item
+        </button>
+        <button type="submit" class="btn btn-submit">✅ Submit Items</button>
+      </form>
+
+      <!-- 🟡 Section 2: Supplier & Restock Settings (Separate but inside the same box) -->
+      <h2>⚙️ Supplier & Restock Settings</h2>
+      <form action="/update_restock_settings" method="POST">
+        <label for="global_threshold">Global Restock Threshold:</label>
+        <input
+          type="number"
+          id="global_threshold"
+          name="global_threshold"
+          placeholder="Set a global restock level"
+          required
+        />
+
+        <label for="default_supplier">Default Supplier:</label>
+        <input
+          type="text"
+          id="default_supplier"
+          name="default_supplier"
+          placeholder="Enter default supplier name"
+        />
+
+        <label for="default_order_quantity">Default Order Quantity:</label>
+        <input
+          type="number"
+          id="default_order_quantity"
+          name="default_order_quantity"
+          placeholder="Set default order size"
+          required
+        />
+
+        <button type="submit" class="btn btn-save">💾 Save Settings</button>
+      </form>
+
+      <a href="{{ url_for('dashboard') }}" class="btn-back"
+        >⬅ Back to Inventory</a
+      >
+    </div>
+
+    <script>
+      function addNewRow() {
+        const table = document
+          .getElementById("itemsTable")
+          .getElementsByTagName("tbody")[0];
+        const newRow = table.insertRow();
+        newRow.innerHTML = `
+                <td><input type="text" name="barcode[]" placeholder="Scan Barcode (Optional)" oninput="fetchProductDetails(this)"></td>
+                <td><input type="text" name="name[]" placeholder="Item Name" required></td>
+                <td><input type="number" name="quantity[]" placeholder="Quantity" min="1" required></td>
+                <td><input type="date" name="expiry_date[]"></td>
+                <td><button type="button" class="btn-delete" onclick="removeRow(this)">🗑</button></td>
+            `;
+      }
+
+      function removeRow(button) {
+        const table = document
+          .getElementById("itemsTable")
+          .getElementsByTagName("tbody")[0];
+        if (table.rows.length > 1) {
+          button.parentNode.parentNode.remove();
+        } else {
+          alert("You must have at least one item row.");
+        }
+      }
+
+      function fetchProductDetails(input) {
+        const barcode = input.value.trim();
+        if (barcode.length >= 8) {
+          fetch(`/get_product?barcode=${barcode}`)
+            .then((response) => response.json())
+            .then((data) => {
+              if (data.success) {
+                input
+                  .closest("tr")
+                  .querySelector("input[name='name[]']").value = data.name;
+              } else {
+                alert("Product not found.");
+              }
+            })
+            .catch((error) =>
+              console.error("Error fetching product details:", error)
+            );
+        }
+      }
+    </script>
+  </body>
+</html>
